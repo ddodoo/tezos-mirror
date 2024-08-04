@@ -1,0 +1,62 @@
+name: Build and Deploy Tezos Node
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install OPAM
+      run: |
+        echo "/usr/local/bin" | sh <(curl -fsSL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh)
+    - name: Install Rust
+      run: |
+        cd $HOME
+        wget https://sh.rustup.rs/rustup-init.sh
+        chmod +x rustup-init.sh
+        ./rustup-init.sh --profile minimal --default-toolchain 1.52.1 -y
+        source $HOME/.cargo/env
+
+    - name: Install System Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          rsync \
+          git \
+          m4 \
+          build-essential \
+          patch \
+          unzip \
+          wget \
+          pkg-config \
+          libgmp-dev \
+          libev-dev \
+          libhidapi-dev \
+          opam \
+          jq \
+          zlib1g-dev \
+          bc \
+          autoconf
+
+    - name: Initialize OPAM and Compile Sources
+      run: |
+        yes 1 | opam init --bare
+        make build-deps
+        
+
+    - name: Compile Sources
+      run: |
+         eval $(opam env)
+         make
+
+    - name: Export PATH
+      run: export PATH=$PWD/_build/install/default/bin/:$PATH
+
+    - name: Check Installation
+      run: octez-node --version
