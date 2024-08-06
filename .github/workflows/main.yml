@@ -71,7 +71,7 @@ jobs:
          make
 
     - name: Export PATH
-      run: export PATH=$PWD/_build/install/default/bin/:$PATH
+      run: echo "$PWD/_build/install/default/bin/:$PATH" >> $GITHUB_PATH
 
     - name: Check Installation
       run: octez-node --version
