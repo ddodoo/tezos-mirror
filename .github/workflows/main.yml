@@ -17,15 +17,15 @@ jobs:
       with:
         # this might remove tools that are actually needed,
         # when set to "true" but frees about 6 GB
-        tool-cache: false
+        tool-cache: true
         
         # all of these default to true, but feel free to set to
         # "false" if necessary for your workflow
-        android: false
-        dotnet: false
-        haskell: false
-        large-packages: false
-        swap-storage: false
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: true
+        swap-storage: true
 
     - name: Install OPAM
       run: |
@@ -75,3 +75,8 @@ jobs:
 
     - name: Check Installation
       run: octez-node --version
+
+    - name: Configure Tezos Node
+      run: |
+         octez-node config init --data-dir ~/tezos-ghostnet --network=ghostnet --history-mode=full
+         timeout 1h octez-node run --data-dir ~/tezos-ghostnet --rpc-addr 127.0.0.1:8732
