@@ -75,8 +75,3 @@ jobs:
 
     - name: Check Installation
       run: octez-node --version
-
-    - name: Configure Tezos Node
-      run: |
-         octez-node config init --data-dir ~/tezos-ghostnet --network=ghostnet --history-mode=full
-         octez-node run --data-dir ~/tezos-ghostnet --rpc-addr 127.0.0.1:8732 --connections 5 --bootstrap-threshold 1
