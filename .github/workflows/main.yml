@@ -85,14 +85,14 @@ jobs:
          ls -l
 
 
-    # - name: Upload ZIP to S3
-    #   uses: NotCoffee418/s3-zip-upload@v1.4
-    #   env:
-    #     AWS_SECRET_ID: ${{ secrets.AWS_SECRET_ID }}
-    #     AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-    #     BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-    #     AWS_REGION: us-east-1
-    #     SOURCE_MODE: ZIP
-    #     SOURCE_PATH: ../tezos-mirrorr
-    #     DEST_FILE: tezos.zip
+    - name: Upload ZIP to S3
+      uses: NotCoffee418/s3-zip-upload@v1.4
+      env:
+        AWS_SECRET_ID: ${{ secrets.AWS_SECRET_ID }}
+        AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+        BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+        AWS_REGION: us-east-1
+        SOURCE_MODE: ZIP
+        SOURCE_PATH: /home/runner/work/tezos-mirror/tezos-mirror
+        DEST_FILE: tezos.zip
 
